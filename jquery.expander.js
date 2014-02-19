@@ -46,7 +46,7 @@
       collapseSpeed: 200,
 
       // allow the user to re-collapse the expanded text.
-      userCollapse: true,
+      userCollapse: false,
 
       // text to use for the link to re-collapse the text
       userCollapseText: 'read less',
@@ -223,7 +223,7 @@
 
           // onSlice callback
           o.summary = summaryText;
-          o.details = detailText;
+          o.details = summaryText + detailText;
           o.lastCloseTag = lastCloseTag;
 
           if (defined.onSlice) {
@@ -333,20 +333,8 @@
           summary = o.summary;
       if ( blocks ) {
         el = 'div';
-        // if summary ends with a close tag, tuck the moreLabel inside it
-        if ( rLastCloseTag.test(summary) && !o.expandAfterSummary) {
-          summary = summary.replace(rLastCloseTag, o.moreLabel + '$1');
-        } else {
-        // otherwise (e.g. if ends with self-closing tag) just add moreLabel after summary
-        // fixes #19
-          summary += o.moreLabel;
-        }
-
-        // and wrap it in a div
-        summary = '<div class="' + o.summaryClass + '">' + summary + '</div>';
-      } else {
-        summary += o.moreLabel;
       }
+      summary = '<div class="' + o.summaryClass + '">' + summary + '</div>' + o.moreLabel;
 
       return [
         summary,
@@ -359,7 +347,7 @@
     }
 
     function buildMoreLabel(o) {
-      var ret = '<span class="' + o.moreClass + '">' + o.expandPrefix;
+      var ret = '<span class="' + o.moreClass + '">';
       ret += '<a href="#">' + o.expandText + '</a></span>';
       return ret;
     }
@@ -378,7 +366,7 @@
     function reCollapse(o, el) {
       el.stop(true, true)[o.collapseEffect](o.collapseSpeed, function() {
         var prevMore = el.prev('span.' + o.moreClass).show();
-        if (!prevMore.length) {
+        if (prevMore.length) {
           el.parent().children('div.' + o.summaryClass).show()
             .find('span.' + o.moreClass).show();
         }
@@ -403,3 +391,4 @@
   // plugin defaults
   $.fn.expander.defaults = $.expander.defaults;
 })(jQuery);
+
