@@ -3,6 +3,10 @@
  * http://plugins.learningjquery.com/expander/
  * Copyright (c) 2013 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
+ * 
+ * ----------------------
+ * Forked by Dan Reynolds
+ * ----------------------
  */
 
 (function($) {
